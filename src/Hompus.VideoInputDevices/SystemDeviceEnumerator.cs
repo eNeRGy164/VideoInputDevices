@@ -5,22 +5,32 @@ using System.Runtime.InteropServices.ComTypes;
 
 namespace Hompus.VideoInputDevices
 {
+    /// <summary>
+    /// A system device enumerator.
+    /// </summary>
     public class SystemDeviceEnumerator : IDisposable
     {
         private bool disposed;
         private ICreateDevEnum _systemDeviceEnumerator;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SystemDeviceEnumerator"/> class.
+        /// </summary>
         public SystemDeviceEnumerator()
         {
             var comType = Type.GetTypeFromCLSID(new Guid("62BE5D10-60EB-11D0-BD3B-00A0C911CE86"));
-            _systemDeviceEnumerator = (ICreateDevEnum)Activator.CreateInstance(comType);
+            this._systemDeviceEnumerator = (ICreateDevEnum)Activator.CreateInstance(comType);
         }
 
+        /// <summary>
+        /// Lists the video input devices connected to the system.
+        /// </summary>
+        /// <returns>A dictionary with the id and name of the device.</returns>
         public IReadOnlyDictionary<int, string> ListVideoInputDevice()
         {
             var videoInputDeviceClass = new Guid("{860BB310-5D01-11D0-BD3B-00A0C911CE86}");
 
-            var hresult = _systemDeviceEnumerator.CreateClassEnumerator(ref videoInputDeviceClass, out var enumMoniker, 0);
+            var hresult = this._systemDeviceEnumerator.CreateClassEnumerator(ref videoInputDeviceClass, out var enumMoniker, 0);
             if (hresult != 0)
             {
                 throw new ApplicationException("No devices of the category");
@@ -48,23 +58,33 @@ namespace Hompus.VideoInputDevices
             return list;
         }
 
+        /// <summary>
+        /// rees, releases, or resets unmanaged resources.
+        /// </summary>
+        /// <param name="disposing"><c>false</c> if invoked by the finalizer because the object is being garbage collected; otherwise, <c>true</c></param>
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!this.disposed)
             {
                 if (disposing)
                 {
-                    Marshal.ReleaseComObject(_systemDeviceEnumerator);
-                    _systemDeviceEnumerator = null;
+                    if (!(this._systemDeviceEnumerator is null))
+                    {
+                        Marshal.ReleaseComObject(this._systemDeviceEnumerator);
+                        this._systemDeviceEnumerator = null;
+                    }
                 }
 
-                disposed = true;
+                this.disposed = true;
             }
         }
 
+        /// <summary>
+        /// Frees, releases, or resets unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
-            Dispose(disposing: true);
+            this.Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
     }

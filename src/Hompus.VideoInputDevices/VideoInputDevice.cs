@@ -4,6 +4,9 @@ using System.Runtime.InteropServices.ComTypes;
 
 namespace Hompus.VideoInputDevices
 {
+    /// <summary>
+    /// A video input device that is detected in the system.
+    /// </summary>
     public class VideoInputDevice
     {
         /// <summary>

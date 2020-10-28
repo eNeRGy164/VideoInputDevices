@@ -2,6 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Michaël Hompus</Authors>
+    <Description>Simple system device enumeration with video input devices.</Description>
+    <RepositoryUrl>https://github.com/eNeRGy164/VideoInputDevices</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>SystemDeviceEnumerator, VideoInputDeviceClass</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Company>Hompus</Company>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
 </Project>
