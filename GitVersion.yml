@@ -1,0 +1,8 @@
+mode: Mainline
+branches:
+  master:
+    regex: ^main$
+    increment: Minor
+ignore:
+  sha: []
+merge-message-formats: {}
