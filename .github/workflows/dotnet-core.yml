@@ -18,18 +18,18 @@ jobs:
         fetch-depth: 0
 
     - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v0.9.4
+      uses: gittools/actions/gitversion/setup@v0.9.7
       with:
-        versionSpec: '5.3.x'
+        versionSpec: 5.x
 
     - name: Use GitVersion
-      id: gitversion # step id used as reference for output values
-      uses: gittools/actions/gitversion/execute@v0.9.4
+      id: gitversion
+      uses: gittools/actions/gitversion/execute@v0.9.7
 
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.301
+        dotnet-version: 3.1.x
 
     - name: Install dependencies
       run: dotnet restore
@@ -48,3 +48,6 @@ jobs:
       with:
         name: nupkg
         path: ./src/Hompus.VideoInputDevices/bin/Release/*.nupkg
+
+    - name: Push NuGet
+      run: dotnet nuget push ./src/Hompus.VideoInputDevices/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.NUGET_API_KEY}} --skip-duplicate
